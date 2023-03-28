@@ -114,7 +114,7 @@ const handleClose = () => {
             Đóng
           </v-btn>
           <v-btn color="blue-darken-1" variant="text" @click="handleAdd">
-            Cập nhật
+            Thêm
           </v-btn>
         </v-card-actions>
       </v-card>

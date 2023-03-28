@@ -1,26 +1,41 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import axios from "axios";
 import moment from "moment";
 import HotelAdd from "./HotelAdd.vue";
 
 const desserts = ref([]);
+const page = ref(1);
 const isOpenAdd = ref(false);
+const totalPage = ref(0);
+const totalRecords = ref(0);
 
 onMounted(() => {
   getData();
 });
+watch(page, () => {
+  getData();
+});
 const getData = async () => {
   try {
-    const res = await axios.get("http://localhost:8081/api/v1/hotel/getAll");
-    desserts.value = res.data;
-  } catch (error) {
-    console.error(error);
+    const res = await axios.get(
+      `http://localhost:8081/api/v1/hotel/getAll?page=${page.value}&size=5`
+    );
+    desserts.value = res.data.data;
+    totalPage.value = res.data.totalPages;
+    totalRecords.value = res.data.totalRecords;
+  } catch (e) {
+    console.error(e);
   }
 };
 const openDialogAdd = (data) => {
   console.log(data);
   isOpenAdd.value = true;
+};
+const handleAdd = () => {
+  console.log("run");
+  isOpenAdd.value = false;
+  getData();
 };
 const handleClose = () => {
   isOpenAdd.value = false;
@@ -127,7 +142,6 @@ const handleClose = () => {
                 color="warning"
                 class="mr-1"
                 size="small"
-                @click="openDialogAdd(item)"
               ></v-btn>
               <v-btn
                 icon="mdi-delete"
@@ -141,7 +155,20 @@ const handleClose = () => {
       </v-table>
     </div>
   </div>
-  <HotelAdd :isOpen="isOpenAdd" @close="handleClose" :data="dataAdd" />
+  <div class="text-center">
+    <v-pagination
+      v-model="page"
+      :length="totalPage"
+      color="success"
+      rounded="circle"
+    ></v-pagination>
+  </div>
+  <HotelAdd
+    :isOpen="isOpenAdd"
+    @close="handleClose"
+    @add="handleAdd"
+    :data="dataAdd"
+  />
 </template>
 <style>
 .heading-tb {

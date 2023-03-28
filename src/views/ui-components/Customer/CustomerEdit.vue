@@ -103,10 +103,8 @@ const handleClose = () => {
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue-darken-1" variant="text" @click="handleClose">
-          Đóng
-        </v-btn>
-        <v-btn color="blue-darken-1" variant="text" @click="handleUpdate">
+        <v-btn color="errorr" variant="text" @click="handleClose"> Đóng </v-btn>
+        <v-btn color="success" variant="text" @click="handleUpdate">
           Cập nhật
         </v-btn>
       </v-card-actions>

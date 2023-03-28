@@ -92,7 +92,7 @@ const handleClose = () => {
                 )
               }}
             </td>
-            <td>
+            <td style="min-width: 160px; text-align: center">
               <v-btn
                 icon="mdi-pencil"
                 color="warning"
