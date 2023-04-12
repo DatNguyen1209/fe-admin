@@ -12,11 +12,15 @@
     "apexcharts": "^3.35.0",
     "axios": "^1.3.4",
     "moment": "^2.29.4",
+    "vee-validate": "^4.8.4",
     "vue": "^3.2.31",
     "vue-instantsearch": "^4.3.3",
+    "vue-property-decorator": "^9.1.2",
     "vue-router": "^4.0.12",
     "vue3-apexcharts": "^1.4.1",
-    "vuetify": "^3.0.0-beta.0"
+    "vuetify": "^3.0.0-beta.0",
+    "vuex": "^4.1.0",
+    "yup": "^1.0.2"
   },
   "devDependencies": {
     "@mdi/font": "^6.5.95",

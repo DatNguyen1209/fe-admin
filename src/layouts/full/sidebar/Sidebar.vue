@@ -8,24 +8,16 @@ const sidebarMenu = ref(sidebarItems);
 
 <template>
   <div>
-    <!-- ---------------------------------------------- -->
-    <!---Logo part -->
-    <!-- ---------------------------------------------- -->
+    
     <div class="pa-4">
       <LogoDark />
     </div>
-    <!-- ---------------------------------------------- -->
-    <!---Navigation -->
-    <!-- ---------------------------------------------- -->
+   
     <div class="scrollnavbar">
       <v-list class="pa-4" color="transparent">
-        <!-- ---------------------------------------------- -->
-        <!---Menu Loop -->
-        <!-- ---------------------------------------------- -->
+       
         <template v-for="(item, i) in sidebarMenu" :key="i">
-          <!-- ---------------------------------------------- -->
-          <!---Single Item-->
-          <!-- ---------------------------------------------- -->
+       
           <v-list-item :to="item.to" rounded="lg" class="mb-1">
             <v-list-item-avatar start class="v-list-item-avatar--start">
               <v-icon class="feather-sm v-icon v-icon--size-default">{{

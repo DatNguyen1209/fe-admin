@@ -1,6 +1,6 @@
 <script setup>
 import { ref, defineProps } from "vue";
-import axios from "axios";
+import axios from '../../../services/axios'
 
 const props = defineProps({
   isOpen: Boolean,
@@ -17,6 +17,20 @@ const fromPrice = ref("");
 const rated = ref();
 const description = ref("");
 const images = ref("");
+const imgUrls = ref([]);
+
+const selectFile =async (e) => {
+ try {
+  const img = new FormData()
+  img.append("file",images.value[0]);
+ const res = await axios.post('/uploadMultipleFiless',img)
+ imgUrls.value = res.data
+ } catch (error) {
+  console.log(error);
+ }
+
+ 
+}
 const handleAdd = async () => {
   try {
     const dataAdd = {
@@ -27,9 +41,10 @@ const handleAdd = async () => {
       rated: rated.value,
       address: address.value,
       description: description.value,
+      image: imgUrls.value[0].fileDownloadUri
     };
     const res = await axios.post(
-      "http://localhost:8081/api/v1/hotel/createhotel",
+      "/v1/hotel/createhotel",
       dataAdd
     );
     emit("add");
@@ -91,9 +106,13 @@ const handleClose = () => {
               <v-col cols="12">
                 <v-file-input
                   v-model="images"
-                  multiple
                   label="File input"
+                  ref="file"
+                  @change="selectFile"
                 ></v-file-input>
+                <div v-if="imgUrls.length">
+                  <img style="width: 100px; height: 140px;" v-for="(img,index) in imgUrls" :key="index"  :src="img.fileDownloadUri" alt="">
+                </div>
               </v-col>
 
               <v-col cols="12">
@@ -110,10 +129,10 @@ const handleClose = () => {
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue-darken-1" variant="text" @click="handleClose">
+          <v-btn color="errorr" variant="text" @click="handleClose">
             Đóng
           </v-btn>
-          <v-btn color="blue-darken-1" variant="text" @click="handleAdd">
+          <v-btn color="success" variant="text" @click="handleAdd">
             Thêm
           </v-btn>
         </v-card-actions>
@@ -132,5 +151,9 @@ const handleClose = () => {
 }
 .v-overlay-scroll-blocked {
   padding-inline-end: 0;
+}
+.mdi-paperclip::before {
+    content: "\F03E2";
+    display: none;
 }
 </style>

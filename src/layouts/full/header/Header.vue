@@ -1,8 +1,17 @@
-<script setup lang="ts">
-import { ref } from "vue";
-import { profile } from "./data";
-
-const userprofile = ref(profile);
+<script setup>
+import { onMounted, ref } from "vue";
+// import { userInfo } from "@/views/Login.vue";
+// import { profile } from "./data";
+import { useRouter } from "vue-router";
+const router = useRouter();
+const userProfile = ref();
+const logOut = () => {
+  router.push("login");
+  window.localStorage.removeItem("userInfo");
+};
+onMounted(() => {
+  userProfile.value = JSON.parse(localStorage.getItem("user"));
+});
 </script>
 
 <template>
@@ -26,18 +35,18 @@ const userprofile = ref(profile);
         </v-btn>
       </template>
 
-      <v-list class="pa-6" elevation="10" rounded="lg">
-        <v-list-item
-          class="pa-3 mb-2"
-          v-for="(item, i) in userprofile"
-          :key="i"
-          :value="item"
-          :title="item.title"
-          :subtitle="item.desc"
-          rounded="lg"
-        >
+      <v-list class="pa-6" elevation="10" rounded="lg" @submit.prevent="logOut">
+        <v-list-item class="pa-3 mb-2" rounded="lg">
         </v-list-item>
-        <v-btn block color="secondary" variant="contained" class="mt-4 py-4"
+        <v-list-item class="pa-3 mb-2" rounded="lg">
+        </v-list-item>
+        <v-btn
+          @click="logOut"
+          type="submit"
+          block
+          color="secondary"
+          variant="contained"
+          class="mt-4 py-4"
           >Logout</v-btn
         >
       </v-list>

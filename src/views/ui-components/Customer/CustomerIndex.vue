@@ -8,10 +8,11 @@ const page = ref(1);
 const isOpenEdit = ref(false);
 const dataEdit = ref();
 const totalPage = ref(0);
-const totalRecords = ref(0);
+const totalElements = ref(0);
 
 onMounted(() => {
   getData();
+  // test();
 });
 
 watch(page, () => {
@@ -20,17 +21,23 @@ watch(page, () => {
 const getData = async () => {
   try {
     const res = await axios.get(
-      `http://localhost:8081/api/v1/user/getAllUser?page=${page.value}&size=5`
-    );
-
-    desserts.value = res.data.data;
+      `http://localhost:8080/api/v1/user/getAllUserByRoleName?page=${page.value}&size=5`
+    )
+    desserts.value = res.data.content;
     totalPage.value = res.data.totalPages;
-    totalRecords.value = res.data.totalRecords;
+    totalElements.value = res.data.totalElements;
   } catch (error) {
     console.error(error);
   }
 };
 
+// const test  = async () =>{ await axios.get(`http://localhost:8080/api/v1/user/getAllUserByRoleName`).then(res => {
+//   debugger;
+//   if(res != null) {
+//     console.log(res.data.data)
+//   }
+// })
+// }
 const openDialogEdit = (data) => {
   console.log(data);
   dataEdit.value = data;
@@ -56,7 +63,7 @@ const handleClose = () => {
     <h2 class="text-center text-uppercase">Thông tin người dùng</h2>
     <div>
       <v-btn style="cursor: default" variant="outlined" color="primary"
-        >Tổng khách hàng: {{ totalRecords }}</v-btn
+        >Tổng khách hàng: {{ totalElements }}</v-btn
       >
     </div>
     <div class="mt-4">
@@ -76,7 +83,7 @@ const handleClose = () => {
         <tbody>
           <tr v-for="item in desserts" :key="item.id">
             <td class="text-center">{{ item.id }}</td>
-            <td class="text-center">{{ item.userName }}</td>
+            <td class="text-center">{{ item.username }}</td>
             <td class="text-center">{{ item.fullName }}</td>
             <td class="text-center">{{ item.phone }}</td>
             <td class="text-center">{{ item.address }}</td>

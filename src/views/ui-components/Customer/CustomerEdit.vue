@@ -20,7 +20,7 @@ watch(
   (value) => {
     if (value) {
       fullName.value = props.data?.fullName;
-      userName.value = props.data?.userName;
+      userName.value = props.data?.username;
       phone.value = props.data?.phone;
       address.value = props.data?.address;
       email.value = props.data?.email;
@@ -36,7 +36,7 @@ const handleUpdate = async () => {
       phone: phone.value,
       address: address.value,
     };
-    const res = await axios.put(
+    const res = await axios.post(
       "http://localhost:8081/api/v1/user/update/" + props.data?.id,
       dataUpdate
     );

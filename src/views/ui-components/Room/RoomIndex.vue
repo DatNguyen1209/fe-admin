@@ -2,8 +2,7 @@
 import { onMounted, ref, watch } from "vue";
 import axios from "axios";
 import moment from "moment";
-import HotelAdd from "./HotelAdd.vue";
-
+import RoomAdd from "./RoomAdd.vue";
 const desserts = ref([]);
 const page = ref(1);
 const isOpenAdd = ref(false);
@@ -19,7 +18,7 @@ watch(page, () => {
 const getData = async () => {
   try {
     const res = await axios.get(
-      `http://localhost:8080/api/v1/hotel/getallhotel?page=${page.value}&size=3`
+      `http://localhost:8081/api/v1/hotel/getAll?page=${page.value}&size=5`
     );
     desserts.value = res.data.data;
     totalPage.value = res.data.totalPages;
@@ -48,7 +47,7 @@ const handleClose = () => {
   <!-- ----------------------------------------------------------------------------- -->
   <div>
     <div class="mt-4">
-      <h2 class="heading-tb mb-3">Thông tin khách sạn</h2>
+      <h2 class="heading-tb mb-3">Thông tin phòng</h2>
       <div>
         <v-btn @click="openDialogAdd(item)" class="mb-4" color="secondary"
           >Thêm mới</v-btn
@@ -107,16 +106,6 @@ const handleClose = () => {
             >
               Chức năng
             </th>
-            <th
-              class="text-subtitle-1 font-weight-bold text-center font-weight-black"
-            >
-              Thêm phòng
-            </th>
-            <th
-              class="text-subtitle-1 font-weight-bold text-center font-weight-black"
-            >
-              Thêm ảnh
-            </th>
           </tr>
         </thead>
         <tbody>
@@ -130,7 +119,7 @@ const handleClose = () => {
             <td class="text-center">
               <img
                 style="height: 100px; width: 80px; border-radius: 4px"
-                :src="`${item.image}`"
+                :src="`http://localhost:8081/uploads/${item.images[0].url}`"
                 alt=""
               />
             </td>
@@ -159,18 +148,6 @@ const handleClose = () => {
                 color="errorr"
                 size="small"
               ></v-btn>
-            </td>
-            <td style="text-align: center">
-              <v-btn
-                icon="mdi-bed"
-                color="warning"
-                class="mr-1"
-                size="small"
-              ></v-btn>
-            </td>
-            <td style="text-align: center">
-             <v-file-input multiple bg-color="primary" append-inner-icon="mdi-image" >
-             </v-file-input>
             </td>
           </tr>
         </tbody>

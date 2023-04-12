@@ -1,37 +1,31 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-const userName = ref("");
+const username = ref("");
 const password = ref("");
 const login = async () => {
   try {
-    const res = await axios.post(`http://localhost:8081/api/v1/auth/signin`, {
-      userName: userName.value,
+    const res = await axios.post(`http://localhost:8080/api/auth/signin`, {
+      username: username.value,
       password: password.value,
     });
-    localStorage.storedData = this.input;
-    router.push("/");
+  console.log(res.data)
+    if (res != null) {
+      router.push("/")
+      localStorage.setItem(`token`, res.data.accessToken);
+        }
+    
   } catch (error) {
     console.log(error);
   }
 };
-watch(login, () => {
-  if (isLocalStorage) {
-    localStorage.setItem("storedData", this.input);
-  }
-});
-// watch: {
-//   input: function () {
-//     if (isLocalStorage() /* function to detect if localstorage is supported*/) {
-//       localStorage.setItem('storedData', this.input)
-//     }
-//   }
-// }
+
 </script>
+
 <template>
   <div class="bg-img">
     <div class="d-flex align-center justify-center" style="height: 100vh">
@@ -40,7 +34,7 @@ watch(login, () => {
         <v-form fast-fail style="width: 100%" @submit.prevent="login">
           <v-text-field
             variant="outlined"
-            v-model="userName"
+            v-model="username"
             label="User Name"
           ></v-text-field>
 
@@ -62,8 +56,6 @@ watch(login, () => {
 <style lang="scss" scoped>
 .bg-img {
   background-size: 100%;
-  // background: url(../assets/images/background/bg-1.jpg);
-  // background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0lUI6mEOgtY0wmBrmkcNmpEusyCs0fxb6Jg&usqp=CAU);
   background-repeat: no-repeat;
   background-position: right top;
   background-image: linear-gradient(

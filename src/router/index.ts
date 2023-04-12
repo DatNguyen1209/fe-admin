@@ -8,6 +8,7 @@ const router = createRouter({
       path: "/",
       redirect: "/dashboard",
       component: () => import("@/layouts/full/FullLayout.vue"),
+
       children: [
         {
           name: "Dashboard",
@@ -58,5 +59,16 @@ const router = createRouter({
     },
   ],
 });
-
+// router.beforeEach(async (to, from) => {
+//   const isAuthenticated = JSON.parse(localStorage.getItem("user")); 
+//   if (
+//     // make sure the user is authenticated
+//     !isAuthenticated &&
+//     // Avoid an infinite redirect
+//     to.name !== "Login"
+//   ) {
+//     // redirect the user to the login page
+//     return { name: "Login" };
+//   }
+// });
 export default router;
